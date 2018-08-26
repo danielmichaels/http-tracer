@@ -8,6 +8,8 @@ def main():
 
 
 class Tracer:
+    """Parent class that gets the url response, and contains the helper methods
+    for cleaning up the formatting."""
 
     def __init__(self, url):
         self.url = url
@@ -35,7 +37,13 @@ class Tracer:
             return resp
 
     def total_time_elapsed(self, resp):
-        pass
+        """Return the total time taken for all redirects."""
+        total = list()
+        for redirects in resp.history:
+            tt = redirects.elapsed.total_seconds()
+            total.append(tt)
+        total.append(resp.elapsed.total_seconds())
+        return int(sum(total) * 1000)
 
     def cookies_exist(self, resp):
         """Check if cookies sent during response."""
@@ -43,7 +51,7 @@ class Tracer:
 
 
 class BasicTracer(Tracer):
-
+    """The basic output of http-tracer."""
     def format_response(self, resp):
         if resp.history:
             for redirects in resp.history:
@@ -54,10 +62,11 @@ class BasicTracer(Tracer):
                               cookies='cookies if any')
             print(resp.status_code, resp.request.method, resp.raw.version,
                   resp.url, resp.elapsed, 'cookies if any')
-            print(f"Number of hops: {len(resp.history) +1}")
+            print(f"Number of hops: {len(resp.history) +1} and took {self.total_time_elapsed(resp)}ms")
 
 
 class FullTracer(Tracer):
+    """Full output that presents headers, cookies, cert validation/ expiry."""
     pass
 
 
