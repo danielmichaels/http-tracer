@@ -5,6 +5,7 @@ import requests
 
 def main():
     BasicTracer('https://httpbin.org/redirect/4')
+    BasicTracer('http://nyti.ms/1QETHgV')  # many redirects
 
 
 class Tracer:
@@ -21,7 +22,7 @@ class Tracer:
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
-        template = f"[{status_code}] HTTP/{http_version} {request_type} {url} ({time}ms) ({cookies} found)"
+        template = f"[{status_code}] HTTP/{http_version} {request_type} {url} ({time}ms) {cookies or ''}"
         print(template)
 
     def time_converter(self, resp):
@@ -47,7 +48,13 @@ class Tracer:
 
     def cookies_exist(self, resp):
         """Check if cookies sent during response."""
-        pass
+        if not resp.cookies.get_dict():
+            return
+        else:
+            cookies = resp.cookies.get_dict()
+            if len(cookies) >= 1:
+                return f"(cookies: {len(cookies)})"
+
 
 
 class BasicTracer(Tracer):
@@ -59,10 +66,14 @@ class BasicTracer(Tracer):
                               http_version=self.http_version_converter(redirects.raw.version),
                               request_type=redirects.request.method,
                               url=redirects.url, time=self.time_converter(redirects.elapsed),
-                              cookies='cookies if any')
-            print(resp.status_code, resp.request.method, resp.raw.version,
-                  resp.url, resp.elapsed, 'cookies if any')
-            print(f"Number of hops: {len(resp.history) +1} and took {self.total_time_elapsed(resp)}ms")
+                              cookies=self.cookies_exist(redirects))
+            self.template(resp.status_code, resp.request.method,
+                          self.http_version_converter(resp.raw.version),
+                          resp.url, self.time_converter(resp.elapsed),
+                          'cookies if any')
+            # print(f"Number of hops: {len(resp.history) +1} and took {self.total_time_elapsed(resp)}ms")
+            print(
+                f"HTTP-Tracer finished in {self.total_time_elapsed(resp)}ms over {len(resp.history) + 1} hops")
 
 
 class FullTracer(Tracer):
