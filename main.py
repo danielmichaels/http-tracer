@@ -9,12 +9,12 @@ import requests
 @click.option('--full', '-f', is_flag=True,
               help='Do a full scan of the redirect chain.')
 def main(url, full):
-    tracer = BasicTracer(url)
+    tracer = Tracer(url)
     resp = tracer.get_response()
     if full:
         full_tracer = FullTracer(url)
         full_tracer.format_response(resp)
-        full_tracer.full_tracer_formate_placeholder(resp)
+        full_tracer.run(resp)
     else:
         tracer.format_response(resp)
     # BasicTracer('https://httpbin.org/redirect/4')
@@ -84,26 +84,50 @@ class Tracer:
                           resp.request.method,
                           resp.url, self.time_converter(resp.elapsed),
                           self.cookies_exist(resp))
-        print(
-            f"HTTP-Tracer finished in {self.total_time_elapsed(resp)}ms over {len(resp.history) + 1} hops")
+        print(f"HTTP-Tracer finished in {self.total_time_elapsed(resp)}ms over"
+              f" {len(resp.history) + 1} hops")
 
 
-class BasicTracer(Tracer):
-    """The basic output of http-tracer."""
-    print('basic tracer init')
-    pass
-
-
-class FullTracer(BasicTracer):
+class FullTracer(Tracer):
     """Full output that presents headers, cookies, cert validation/ expiry."""
 
-    def full_tracer_formate_placeholder(self, resp):
-        print('full tracer')
-        print(resp.history)
-        print("""
-        this is where each hops headers, cookies, certificate validations etc
-        will be printed.""")
-        print("click.pager to parse using less as an option boolean")
+    def run(self, resp):
+        data = self.create_dicts(resp)
+        # print('list item: {}\n'.format([d for d in data]))
+        self.full_format(data)
+
+    def create_dicts(self, resp):
+        list_of_headers = list()
+        if resp.history:
+            last_header = dict()
+            for redirects in resp.history:
+                redirected_headers = dict()
+                for k, v in redirects.headers.items():
+                    redirected_headers[k] = v
+                list_of_headers.append(redirected_headers)
+            for k, v in resp.headers.items():
+                last_header[k] = v
+            list_of_headers.append(last_header)
+
+        return list_of_headers
+
+    def full_format(self, header_list):
+
+        print()
+        for items in header_list:
+            # print(items)
+
+            print("##################################")
+            print("             HEADERS              ")
+            print("##################################")
+            print()
+            for k, v in items.items():
+                print("{}:    {}".format(k, v))
+
+        # cookies
+
+        # redirection
+
 
 if __name__ == '__main__':
     main()
