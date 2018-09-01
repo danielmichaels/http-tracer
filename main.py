@@ -32,8 +32,18 @@ class Tracer:
         self.get_response()
 
     def get_response(self):
-        resp = requests.get(self.url)
-        return resp
+        try:
+            resp = requests.get(self.url)
+            if resp.status_code == 200:
+                return resp
+            else:
+                raise ConnectionError
+
+        except requests.ConnectionError or requests.ConnectTimeout as e:
+            click.secho(f"{e} Caused Fatal Error!", blink='red')
+        except requests.HTTPError as e:
+            click.secho(f"{e} Caused Fatal Error!", blink='red')
+
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
