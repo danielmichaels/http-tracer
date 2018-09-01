@@ -93,7 +93,6 @@ class FullTracer(Tracer):
 
     def run(self, resp):
         data = self.create_dicts(resp)
-        # print('list item: {}\n'.format([d for d in data]))
         self.full_format(data)
 
     def create_dicts(self, resp):
@@ -114,19 +113,30 @@ class FullTracer(Tracer):
     def full_format(self, header_list):
 
         print()
+        hop = 0
         for items in header_list:
-            # print(items)
-
+            hop += 1
+            print()
             print("##################################")
             print("             HEADERS              ")
             print("##################################")
+            print(f"[*]hop number: {hop}[*]")
             print()
+            if 'Set-Cookie' in items.keys():
+                print('#### COOKIE FOUND ######')
+                print(f"Cookie: {items['Set-Cookie']}")
+                print()
+
             for k, v in items.items():
+                # unordered dict.
                 print("{}:    {}".format(k, v))
 
-        # cookies
-
-        # redirection
+            if 'Location' in items.keys():
+                print()
+                print("##################################")
+                print("             REDIRECTION              ")
+                print("##################################")
+                print(f"Redirected to: {items['Location']}")
 
 
 if __name__ == '__main__':
