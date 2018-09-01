@@ -2,13 +2,17 @@
 
 import click
 import requests
+from colorama import Fore as fg
+from colorama import Style as sty
 
 
 @click.command()
 @click.argument('url')
 @click.option('--full', '-f', is_flag=True,
               help='Do a full scan of the redirect chain.')
-def main(url, full):
+@click.option('--pager', '-p', is_flag=True,
+              help="use system pager for output")
+def main(url, full, pager):
     tracer = Tracer(url)
     resp = tracer.get_response()
     if full:
@@ -17,8 +21,6 @@ def main(url, full):
         full_tracer.run(resp)
     else:
         tracer.format_response(resp)
-    # BasicTracer('https://httpbin.org/redirect/4')
-    # BasicTracer('http://nyti.ms/1QETHgV')  # many redirects
 
 
 class Tracer:
@@ -31,12 +33,11 @@ class Tracer:
 
     def get_response(self):
         resp = requests.get(self.url)
-        # return self.format_response(resp)
         return resp
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
-        template = f"[{status_code}] HTTP/{http_version} {request_type} {url} ({time}ms) {cookies or ''}"
+        template = f"{fg.GREEN}[{status_code}]{fg.YELLOW} HTTP/{http_version} {fg.BLUE}{request_type} {fg.WHITE}{url} {fg.CYAN}({time}ms) {fg.LIGHTGREEN_EX} {cookies or ''}{sty.RESET_ALL}"
         print(template)
 
     def time_converter(self, resp):
@@ -84,8 +85,9 @@ class Tracer:
                           resp.request.method,
                           resp.url, self.time_converter(resp.elapsed),
                           self.cookies_exist(resp))
-        print(f"HTTP-Tracer finished in {self.total_time_elapsed(resp)}ms over"
-              f" {len(resp.history) + 1} hops")
+        print(
+            f"\n{fg.WHITE}HTTP-Tracer finished in {fg.CYAN}{self.total_time_elapsed(resp)}ms{fg.WHITE} over"
+            f"{fg.CYAN} {len(resp.history) + 1}{sty.RESET_ALL} hops")
 
 
 class FullTracer(Tracer):
@@ -93,7 +95,7 @@ class FullTracer(Tracer):
 
     def run(self, resp):
         data = self.create_dicts(resp)
-        self.full_format(data)
+        self.full_format(data, resp)
 
     def create_dicts(self, resp):
         list_of_headers = list()
@@ -110,33 +112,41 @@ class FullTracer(Tracer):
 
         return list_of_headers
 
-    def full_format(self, header_list):
+    def full_format(self, header_list, resp):
 
         print()
         hop = 0
         for items in header_list:
             hop += 1
             print()
-            print("##################################")
+            click.secho("##################################", fg='yellow')
             print("             HEADERS              ")
-            print("##################################")
-            print(f"[*]hop number: {hop}[*]")
+            click.secho("##################################", fg='yellow')
+            click.secho(f"    [*]hop number: {hop}[*]", fg='white')
             print()
-            if 'Set-Cookie' in items.keys():
-                print('#### COOKIE FOUND ######')
-                print(f"Cookie: {items['Set-Cookie']}")
-                print()
 
             for k, v in items.items():
                 # unordered dict.
                 print("{}:    {}".format(k, v))
 
+            print()
+            if 'Set-Cookie' in items.keys():
+                click.secho("##################################", fg='green')
+                print("             COOKIES              ")
+                click.secho("##################################", fg='green')
+                print(f"Cookie: {items['Set-Cookie']}")
+                print()
+
             if 'Location' in items.keys():
                 print()
-                print("##################################")
+                click.secho("##################################", fg='blue')
                 print("             REDIRECTION              ")
-                print("##################################")
-                print(f"Redirected to: {items['Location']}")
+                click.secho("##################################", fg='blue')
+                click.secho(f"Redirected to: {items['Location']}", fg='white')
+
+        print()
+        click.secho(f"Final URL: {resp.url} [{resp.status_code}]",
+                    fg='magenta')
 
 
 if __name__ == '__main__':
