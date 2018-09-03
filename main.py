@@ -10,17 +10,13 @@ from colorama import Style as sty
 @click.argument('url')
 @click.option('--full', '-f', is_flag=True,
               help='Do a full scan of the redirect chain.')
-@click.option('--pager', '-p', is_flag=True,
-              help="use system pager for output")
-def main(url, full, pager):
+def main(url, full):
     tracer = Tracer(url)
     resp = tracer.get_response()
+    tracer.format_response(resp)
     if full:
         full_tracer = FullTracer(url)
-        full_tracer.format_response(resp)
         full_tracer.run(resp)
-    else:
-        tracer.format_response(resp)
 
 
 class Tracer:
@@ -40,10 +36,9 @@ class Tracer:
                 raise ConnectionError
 
         except requests.ConnectionError or requests.ConnectTimeout as e:
-            click.secho(f"{e} Caused Fatal Error!", blink='red')
+            click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
         except requests.HTTPError as e:
-            click.secho(f"{e} Caused Fatal Error!", blink='red')
-
+            click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
@@ -126,7 +121,8 @@ class FullTracer(Tracer):
 
         print()
         hop = 0
-        for items in header_list:
+        print(f"{fg.WHITE}[!]    START FULL OUTPUT       [!]{sty.RESET_ALL}")
+        for dict_item in header_list:
             hop += 1
             print()
             click.secho("##################################", fg='yellow')
@@ -135,24 +131,25 @@ class FullTracer(Tracer):
             click.secho(f"    [*]hop number: {hop}[*]", fg='white')
             print()
 
-            for k, v in items.items():
+            for k, v in dict_item.items():
                 # unordered dict.
                 print("{}:    {}".format(k, v))
 
             print()
-            if 'Set-Cookie' in items.keys():
+            if 'Set-Cookie' in dict_item.keys():
                 click.secho("##################################", fg='green')
                 print("             COOKIES              ")
                 click.secho("##################################", fg='green')
-                print(f"Cookie: {items['Set-Cookie']}")
+                print(f"Cookie: {dict_item['Set-Cookie']}")
                 print()
 
-            if 'Location' in items.keys():
+            if 'Location' in dict_item.keys():
                 print()
                 click.secho("##################################", fg='blue')
                 print("             REDIRECTION              ")
                 click.secho("##################################", fg='blue')
-                click.secho(f"Redirected to: {items['Location']}", fg='white')
+                click.secho(f"Redirected to: {dict_item['Location']}",
+                            fg='white')
 
         print()
         click.secho(f"Final URL: {resp.url} [{resp.status_code}]",
