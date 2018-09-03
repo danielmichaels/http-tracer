@@ -42,7 +42,9 @@ class Tracer:
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
-        template = f"{fg.GREEN}[{status_code}]{fg.YELLOW} HTTP/{http_version} {fg.BLUE}{request_type} {fg.WHITE}{url} {fg.CYAN}({time}ms) {fg.LIGHTGREEN_EX} {cookies or ''}{sty.RESET_ALL}"
+        template = f"{fg.GREEN}[{status_code}]{fg.YELLOW} HTTP/{http_version}" \
+                   f" {fg.BLUE}{request_type} {fg.WHITE}{url} {fg.CYAN}({time}ms)" \
+                   f" {fg.LIGHTGREEN_EX} {cookies or ''}{sty.RESET_ALL}"
         print(template)
 
     def time_converter(self, resp):
@@ -92,7 +94,7 @@ class Tracer:
                           self.cookies_exist(resp))
         print(
             f"\n{fg.WHITE}HTTP-Tracer finished in {fg.CYAN}{self.total_time_elapsed(resp)}ms{fg.WHITE} over"
-            f"{fg.CYAN} {len(resp.history) + 1}{sty.RESET_ALL} hops")
+            f"{fg.CYAN} {len(resp.history) + 1}{fg.WHITE} hops{sty.RESET_ALL}")
 
 
 class FullTracer(Tracer):
@@ -133,7 +135,7 @@ class FullTracer(Tracer):
 
             for k, v in dict_item.items():
                 # unordered dict.
-                print("{}:    {}".format(k, v))
+                print(f"{fg.WHITE}{k}: {sty.RESET_ALL}{v}")
 
             print()
             if 'Set-Cookie' in dict_item.keys():
