@@ -5,6 +5,8 @@ import requests
 from colorama import Fore as fg
 from colorama import Style as sty
 
+version = "2018.8.1"  # import from setup.py
+
 
 @click.command()
 @click.argument('url')
@@ -79,6 +81,12 @@ class Tracer:
 
     def format_response(self, resp):
         if resp.history:
+            print(f"""{fg.WHITE}  _  _ _   _            _                       
+ | || | |_| |_ _ __ ___| |_ _ _ __ _ __ ___ _ _ 
+ | __ |  _|  _| '_ \___|  _| '_/ _` / _/ -_) '_|
+ |_||_|\__|\__| .__/    \__|_| \__,_\__\___|_|  
+              |_|                              v {version} 
+""")
             for redirects in resp.history:
                 self.template(status_code=redirects.status_code,
                               http_version=self.http_version_converter(
@@ -127,10 +135,13 @@ class FullTracer(Tracer):
         for dict_item in header_list:
             hop += 1
             print()
+            click.secho(f"######### HOP NUMBER: {hop} ##########",
+                        fg='magenta')
+            print()
             click.secho("##################################", fg='yellow')
             print("             HEADERS              ")
             click.secho("##################################", fg='yellow')
-            click.secho(f"    [*]hop number: {hop}[*]", fg='white')
+            # click.secho(f"    [*]hop number: {hop}[*]", fg='white')
             print()
 
             for k, v in dict_item.items():
@@ -150,8 +161,9 @@ class FullTracer(Tracer):
                 click.secho("##################################", fg='blue')
                 print("             REDIRECTION              ")
                 click.secho("##################################", fg='blue')
-                click.secho(f"Redirected to: {dict_item['Location']}",
-                            fg='white')
+                print(f"{fg.WHITE} Request for:{sty.RESET_ALL} {resp.url}")
+                print(
+                    f"{fg.WHITE} Redirected to{sty.RESET_ALL} {dict_item['Location']}")
 
         print()
         click.secho(f"Final URL: {resp.url} [{resp.status_code}]",
