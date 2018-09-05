@@ -13,6 +13,10 @@ version = "2018.8.1"  # import from setup.py
 @click.option('--full', '-f', is_flag=True,
               help='Do a full scan of the redirect chain.')
 def main(url, full):
+    """
+    HTTP-Tracer returns the redirects on way to the destination URL.
+
+    """
     tracer = Tracer(url)
     resp = tracer.get_response()
     tracer.format_response(resp)
@@ -22,8 +26,10 @@ def main(url, full):
 
 
 class Tracer:
-    """Parent class that gets the url response, and contains the helper methods
-    for cleaning up the formatting."""
+    """
+    Parent class that gets the url response, and contains the helper methods
+    for cleaning up the formatting.
+    """
     logo = f"""{fg.WHITE}
   _  _ _   _            _                       
  | || | |_| |_ _ __ ___| |_ _ _ __ _ __ ___ _ _ 
@@ -37,6 +43,11 @@ class Tracer:
         self.get_response()
 
     def get_response(self):
+        """
+        Gets the response object for the URL specified.
+
+        :returns: response object
+        """
         try:
             resp = requests.get(self.url)
             return resp
@@ -49,17 +60,29 @@ class Tracer:
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
+        """Method for templating the responses."""
         template = f"{fg.GREEN}[{status_code}]{fg.YELLOW} HTTP/{http_version}" \
                    f" {fg.BLUE}{request_type} {fg.WHITE}{url} {fg.CYAN}({time}ms)" \
                    f" {fg.LIGHTGREEN_EX} {cookies or ''}{sty.RESET_ALL}"
         print(template)
 
     def time_converter(self, resp):
-        """Parses request.elapsed into milliseconds"""
+        """
+        Parses request.elapsed into milliseconds
+
+        :param resp: response object
+        :returns: integer that represents milliseconds
+
+        """
         return int(resp.total_seconds() * 1000)
 
     def http_version_converter(self, resp):
-        """Reformat requests raw.version integer into the HTTP header format"""
+        """
+        Reformat requests raw.version integer into the HTTP header format
+
+        :param resp: response object
+        :returns: either 1.1 or 2 for http version
+        """
         if len(str(resp)) > 1:
             resp = [x for x in str(resp)]
             return f"{resp[0]}.{resp[1]}"
@@ -67,7 +90,12 @@ class Tracer:
             return resp
 
     def total_time_elapsed(self, resp):
-        """Return the total time taken for all redirects."""
+        """
+        Return the total time taken for all redirects.
+
+        :param resp: response object
+        :returns: sum of all response times in milliseconds.
+        """
         total = list()
         for redirects in resp.history:
             tt = redirects.elapsed.total_seconds()
@@ -76,7 +104,12 @@ class Tracer:
         return int(sum(total) * 1000)
 
     def cookies_exist(self, resp):
-        """Check if cookies sent during response."""
+        """
+        Check if cookies sent during response.
+
+        :param resp: response object.
+        :returns: dictionary of cookies from response if exists or None.
+        """
         if not resp.cookies.get_dict():
             return
         else:
@@ -85,6 +118,7 @@ class Tracer:
                 return f"(cookies: {len(cookies)})"
 
     def format_response(self, resp):
+        """The default output for HTTP-Tracer."""
         print(self.logo)
         if resp.history:
 
@@ -114,13 +148,20 @@ class Tracer:
 
 
 class FullTracer(Tracer):
-    """Full output that presents headers, cookies, cert validation/ expiry."""
+    """Full output that presents headers, cookies and redirect urls."""
 
     def run(self, resp):
+        """Helper method that calls the other methods within FullTracer."""
         data = self.create_dicts(resp)
         self.full_format(data, resp)
 
     def create_dicts(self, resp):
+        """
+        Returns a list of dictionaries of all response headers.
+
+        :param resp: response object
+        :returns: list of dictionaries containing response headers.
+        """
         list_of_headers = list()
         if resp.history:
             last_header = dict()
@@ -136,6 +177,13 @@ class FullTracer(Tracer):
         return list_of_headers
 
     def full_format(self, header_list, resp):
+        """
+        A method that iterates over a list of dictionaries, and the response
+        object. Used in the --full (-f) option when running the application.
+
+        :param header_list: list of dictionaries containing header info.
+        :param resp: response object.
+        """
 
         print()
         hop = 0
