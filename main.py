@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import sys
 
 import click
 import requests
@@ -9,13 +10,14 @@ version = "2018.8.1"  # import from setup.py
 
 
 @click.command()
-@click.argument('url')
+@click.argument('url', 'Please enter a valid URL')
 @click.option('--full', '-f', is_flag=True,
-              help='Do a full scan of the redirect chain.')
+              help='Do a full scan of the redirect chain')
 def main(url, full):
     """
     HTTP-Tracer returns the redirects on way to the destination URL.
 
+    User muse enter a URL with 'http://' or 'https://' prepended.
     """
     tracer = Tracer(url)
     resp = tracer.get_response()
@@ -51,12 +53,19 @@ class Tracer:
         try:
             resp = requests.get(self.url)
             return resp
+        except requests.exceptions.MissingSchema as e:
+            print("Please prepend the address with either 'http://'"
+                  " 'https://'")
+            sys.exit(1)
         except ConnectionError as e:
             click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
+            sys.exit(1)
         except requests.ConnectionError or requests.ConnectTimeout as e:
             click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
+            sys.exit(1)
         except requests.HTTPError as e:
             click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
+            sys.exit(1)
 
     def template(self, status_code, http_version, request_type, url, time,
                  cookies):
