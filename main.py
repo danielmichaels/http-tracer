@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import random
 import sys
 
 import click
@@ -44,6 +45,19 @@ class Tracer:
         self.url = url
         self.get_response()
 
+    def user_agent(self):
+        user_agents = ['Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)',
+                       'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko',
+                       'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)',
+                       'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',
+                       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
+                       'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+                       'Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+                       'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36']
+        agent = random.choice(user_agents)
+
+        return agent
+
     def get_response(self):
         """
         Gets the response object for the URL specified.
@@ -51,20 +65,27 @@ class Tracer:
         :returns: response object
         """
         try:
-            resp = requests.get(self.url)
+            resp = requests.get(self.url,
+                                headers={'User-Agent': self.user_agent()})
             return resp
         except requests.exceptions.MissingSchema as e:
             print("Please prepend the address with either 'http://'"
-                  " 'https://'")
+                  " 'https://'\nExiting...")
             sys.exit(1)
         except ConnectionError as e:
-            click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
+            click.echo(f"ConnectionError")
+            click.echo(f"{e}\n")
+            print('Exiting...')
             sys.exit(1)
         except requests.ConnectionError or requests.ConnectTimeout as e:
-            click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
+            click.echo(f"requests.ConnectionError")
+            click.echo(f"{e}\n")
+            print('Exiting...')
             sys.exit(1)
         except requests.HTTPError as e:
-            click.secho(f"{e} Caused Fatal Error!", blink=True, fg='red')
+            click.echo(f"requests.HTTPError")
+            click.echo(f"{e}\n")
+            print('Exiting...')
             sys.exit(1)
 
     def template(self, status_code, http_version, request_type, url, time,
