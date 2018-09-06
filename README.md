@@ -1,3 +1,10 @@
+```
+  _  _ _   _            _                       
+ | || | |_| |_ _ __ ___| |_ _ _ __ _ __ ___ _ _ 
+ | __ |  _|  _| '_ \___|  _| '_/ _` / _/ -_) '_|
+ |_||_|\__|\__| .__/    \__|_| \__,_\__\___|_|  
+ 
+```
 # HTTP-Tracer
 > A python script for ascertaining the redirection path taken when accessing a URL
 
