@@ -108,4 +108,4 @@ Status Code: 200
 ## Attribution & Motivation
 
 This is a blatant python rip off of [Robin Wood](https://twitter.com/digininja) and [PaulSec's](https://github.com/PaulSec/HTTP-traceroute) previous work. 
-[Watson/http-tracer](https://github.com/watson/http-traceroute) for his formatting and styling. Check his great JS libraries!
+Kudos to [Watson/http-traceroute](https://github.com/watson/http-traceroute) for his formatting and styling, check his great JS libraries!
