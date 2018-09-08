@@ -30,7 +30,7 @@ REQUIRED = [
 
 entry_points = {
     'console_scripts': [
-        ['http-tracer = http-tracer:main']
+        ['http-tracer = main:main']
     ]
 }
 
