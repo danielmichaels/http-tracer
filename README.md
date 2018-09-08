@@ -16,17 +16,14 @@ flag, it will return all the headers, cookies and redirects for each hop.
 
 ## Installation
 
-```sh
+```shell
 pip install http-traceroute
 ```
-
 
 ## Usage example
 
 ### Default output
-```shell
-http-tracer http://nyti.ms/1QETHgV
-```
+
 ![](/Examples/http-tracer-default.png?raw=True "http-tracer default output")
 
 ### Extended or Full ouput
@@ -93,15 +90,12 @@ URL: https://www.nytimes.com/2016/01/27/nyregion/what-happened-to-jane-mayer-whe
 Status Code: 200
 
 ```
-**insert pic**
-
 
 ## Release History
 
 **v 18.8.1**
 
 - Work in progress
-
 
 ## Contributing
 
@@ -113,7 +107,5 @@ Status Code: 200
 
 ## Attribution & Motivation
 
-Robin Wood @digininja and PaulSec. This is a blatant python rip off of their
-great work. Check them out.
-
-Watson/http-tracer for his formatting and styling. Check his great JS libraries!
+This is a blatant python rip off of [Robin Wood](https://twitter.com/digininja) and [PaulSec's](https://github.com/PaulSec/HTTP-traceroute) previous work. 
+[Watson/http-tracer](https://github.com/watson/http-traceroute) for his formatting and styling. Check his great JS libraries!
