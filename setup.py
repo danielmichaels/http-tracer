@@ -13,8 +13,8 @@ from setuptools import setup, find_packages
 
 NAME = 'http-tracer'
 VERSION = '18.8.1'
-DESCRIPTION = "A simple script that follows redirects and returns their " \
-              "headers, cookies and url's along its path."
+DESCRIPTION = "A simple script that follows redirects and returns each " \
+              "websites headers, cookies and url along its path."
 URL = 'https://github.com/danielmichaels/http-tracer'
 DOWNLOAD_URL = (URL + '/tarball/' + VERSION)
 AUTHOR = 'Daniel Michaels'
