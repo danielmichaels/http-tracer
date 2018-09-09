@@ -12,7 +12,7 @@ $ twine upload -r pypi dist/*
 from setuptools import setup, find_packages
 
 NAME = 'http-tracer'
-VERSION = '18.8.1'
+VERSION = '18.8.2rc1'
 DESCRIPTION = "A simple script that follows redirects and returns each " \
               "websites headers, cookies and url along its path."
 URL = 'https://github.com/danielmichaels/http-tracer'

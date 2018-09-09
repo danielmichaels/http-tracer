@@ -97,6 +97,10 @@ Status Code: 200
 
 - Work in progress
 
+**v 18.8.2rc1**
+
+- Bug fixes
+
 ## Contributing
 
 1. Fork it (<https://github.com/yourname/yourproject/fork>)

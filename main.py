@@ -7,8 +7,9 @@ import requests
 from colorama import Fore as fg
 from colorama import Style as sty
 
-version = "2018.8.1"  # import from setup.py
+from setup import VERSION
 
+version = VERSION
 
 @click.command()
 @click.argument('url', 'Please enter a valid URL')
