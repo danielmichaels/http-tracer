@@ -11,6 +11,7 @@ from setup import VERSION
 
 version = VERSION
 
+
 @click.command()
 @click.argument('url', 'Please enter a valid URL')
 @click.option('--full', '-f', is_flag=True,
