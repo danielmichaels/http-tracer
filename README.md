@@ -17,7 +17,7 @@ flag, it will return all the headers, cookies and redirects for each hop.
 ## Installation
 
 ```shell
-pip install http-traceroute
+pip install http-tracer
 ```
 
 ## Usage example
