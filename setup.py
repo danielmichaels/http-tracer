@@ -24,7 +24,7 @@ REQUIRES_PYTHON = '>= Python 3.6'
 # Include what dependencies it requires:
 REQUIRED = [
     'requests',
-    'click',
+    'click==6.7',
     'colorama'
 ]
 

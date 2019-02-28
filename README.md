@@ -20,6 +20,8 @@ flag, it will return all the headers, cookies and redirects for each hop.
 pip install http-tracer
 ```
 
+**[!] requires Click==6.7 [!]**
+
 ## Usage example
 
 ### Default output
