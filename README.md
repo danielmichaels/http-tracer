@@ -28,7 +28,7 @@ pip install http-tracer
 
 ![](/Examples/http-tracer-default.png?raw=True "http-tracer default output")
 
-### Extended or Full ouput
+### Extended or Full output
 ```shell
 http-tracer http://nyti.ms/1QETHgV --full 
 
