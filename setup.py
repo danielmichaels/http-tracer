@@ -1,5 +1,6 @@
 """
 Publish a new version:
+!!! change $VERSION in setup.py
 $ git tag X.Y.Z -m "Release X.Y.Z"
 $ git push --tags
 $ pip install --upgrade twine wheel
@@ -12,7 +13,7 @@ $ twine upload -r pypi dist/*
 from setuptools import setup, find_packages
 
 NAME = 'http-tracer'
-VERSION = '18.9.1'
+VERSION = '19.2.1'
 DESCRIPTION = "A simple script that follows redirects and returns each " \
               "websites headers, cookies and url along its path."
 URL = 'https://github.com/danielmichaels/http-tracer'
