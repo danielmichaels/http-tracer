@@ -18,7 +18,7 @@ def main(url, full):
     """
     HTTP-Tracer returns the redirects on way to the destination URL.
 
-    User muse enter a URL with 'http://' or 'https://' prepended.
+    User must enter a URL with 'http://' or 'https://' prepended.
     """
     tracer = Tracer(url)
     resp = tracer.get_response()
