@@ -7,7 +7,7 @@ import requests
 from colorama import Fore as fg
 from colorama import Style as sty
 
-version = '2018.9.1'
+version = '2019.2.1'
 
 
 @click.command()
