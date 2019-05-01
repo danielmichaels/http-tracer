@@ -28,7 +28,7 @@ colorama==0.4.1
 requests==2.21.0
 ```
 
-Currently Http-tracer is broken with anything newer than `click` 6.7 due to breaking changes within their API.
+Currently HTTP-Tracer is broken with anything newer than `click` 6.7 due to breaking changes within their API.
 
 ## Usage example
 
@@ -37,6 +37,7 @@ Currently Http-tracer is broken with anything newer than `click` 6.7 due to brea
 ![](/Examples/http-tracer-default.png?raw=True "http-tracer default output")
 
 ### Extended or Full output
+
 ```shell
 http-tracer http://nyti.ms/1QETHgV --full 
 
