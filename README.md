@@ -20,7 +20,15 @@ flag, it will return all the headers, cookies and redirects for each hop.
 pip install http-tracer
 ```
 
-**requires Click==6.7**
+## Requirements
+
+```shell
+click==6.7
+colorama==0.4.1
+requests==2.21.0
+```
+
+Currently Http-tracer is broken with anything newer than `click` 6.7 due to breaking changes within their API.
 
 ## Usage example
 
@@ -94,6 +102,10 @@ Status Code: 200
 ```
 
 ## Release History
+
+**v 19.2.1**
+
+- Pin click 6.7 due to breaking changes within its new API
 
 **v 18.9.1**
 
