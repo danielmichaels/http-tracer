@@ -17,7 +17,7 @@ def main(url, full):
     """
     HTTP-Tracer returns the redirects on way to the destination URL.
 
-    User must enter a URL with 'http://' or 'https://' prepended.
+    If user does not supply 'https://' defaults to 'http://'
     """
     tracer = Tracer(url)
     resp = tracer.get_response()
@@ -66,7 +66,7 @@ class Tracer:
 
         :return: http:// + url
         """
-        if self.url[:4] != 'http':
+        if self.url[:4] != "http":
             return f"http://{self.url}"
         return self.url
 
@@ -77,9 +77,7 @@ class Tracer:
         :returns: response object
         """
         try:
-            # resp = requests.get(self.url, headers={"User-Agent": self.user_agent()})
-            resp = requests.get(self._http(), headers={"User-Agent":
-                                                     self.user_agent()})
+            resp = requests.get(self._http(), headers={"User-Agent": self.user_agent()})
             return resp
         except requests.exceptions.MissingSchema as e:
             print(

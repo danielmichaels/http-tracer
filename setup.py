@@ -12,35 +12,29 @@ $ twine upload -r pypi dist/*
 
 from setuptools import setup, find_packages
 
-NAME = 'http-tracer'
-VERSION = '19.2.1'
-DESCRIPTION = "A simple script that follows redirects and returns each " \
-              "websites headers, cookies and url along its path."
-URL = 'https://github.com/danielmichaels/http-tracer'
-DOWNLOAD_URL = (URL + '/tarball/' + VERSION)
-AUTHOR = 'Daniel Michaels'
-AUTHOR_EMAIL = 'dans.address@outlook.com'
-REQUIRES_PYTHON = '>= Python 3.6'
+NAME = "http-tracer"
+VERSION = "19.2.1"
+DESCRIPTION = (
+    "A simple script that follows redirects and returns each "
+    "websites headers, cookies and url along its path."
+)
+URL = "https://github.com/danielmichaels/http-tracer"
+DOWNLOAD_URL = URL + "/tarball/" + VERSION
+AUTHOR = "Daniel Michaels"
+AUTHOR_EMAIL = "dans.address@outlook.com"
+REQUIRES_PYTHON = ">= Python 3.6"
 
 # Include what dependencies it requires:
-REQUIRED = [
-    'requests',
-    'click==6.7',
-    'colorama'
-]
+REQUIRED = ["requests", "click==6.7", "colorama"]
 
-entry_points = {
-    'console_scripts': [
-        ['http-tracer = tracer.main:main']
-    ]
-}
+entry_points = {"console_scripts": [["http-tracer = tracer.main:main"]]}
 
 setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
     long_description=DESCRIPTION,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     url=URL,
@@ -48,13 +42,13 @@ setup(
     install_requires=REQUIRED,
     entry_points=entry_points,
     include_package_data=True,
-    license='MIT',
+    license="MIT",
     packages=find_packages(),
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6'
-    ]
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+    ],
 )
