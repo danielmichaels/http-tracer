@@ -250,7 +250,7 @@ class FullTracer(Tracer):
 
             for k, v in dict_item.items():
                 # unordered dict.
-                print(f"{fg.WHITE}{k}: {sty.RESET_ALL}{v}")
+                print(f"{fg.LIGHTCYAN_EX}{k}: {sty.RESET_ALL}{v}")
 
             print()
             if "Set-Cookie" in dict_item.keys():
@@ -258,7 +258,7 @@ class FullTracer(Tracer):
                 print("             COOKIES              ")
                 click.secho("##################################", fg="green")
                 print()
-                print(f"{fg.WHITE}Cookie:{sty.RESET_ALL} {dict_item['Set-Cookie']}")
+                print(f"{fg.LIGHTCYAN_EX}Cookie:{sty.RESET_ALL} {dict_item['Set-Cookie']}")
                 print()
 
             if "Location" in dict_item.keys():
@@ -268,7 +268,7 @@ class FullTracer(Tracer):
                 click.secho("##################################", fg="blue")
                 print()
                 print(f"{fg.WHITE}Request for:{sty.RESET_ALL} {resp.url}")
-                print(f"{fg.WHITE}Redirected to{sty.RESET_ALL} {dict_item['Location']}")
+                print(f"{fg.WHITE}Redirected to:{sty.RESET_ALL} {dict_item['Location']}")
 
         print()
         print(f"{fg.YELLOW}!! FINAL DESTINATION !!")
