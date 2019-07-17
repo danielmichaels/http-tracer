@@ -80,10 +80,10 @@ class Tracer:
         try:
             resp = requests.get(self._http(), headers={"User-Agent": self.user_agent()})
             return resp
-        except requests.exceptions.MissingSchema or requests.exceptions.InvalidSchema:
-            print(
-                "Please prepend the address with either 'http://'"
-                " 'https://'\nExiting..."
+        except requests.exceptions.MissingSchema or requests.exceptions.InvalidSchema as e:
+            click.echo(
+                f"Schema Error. Only 'http://' and 'https://' supported"
+                f"{e}\nExiting.."
             )
             sys.exit(1)
         except ConnectionError as e:
@@ -264,14 +264,14 @@ class FullTracer(Tracer):
                 )
             print()
 
-        if "Location" in dict_item.keys():
-            print()
-            click.secho("##################################", fg="blue")
-            print("             REDIRECTION              ")
-            click.secho("##################################", fg="blue")
-            print()
-            print(f"{fg.WHITE}Request for:{sty.RESET_ALL} {resp.url}")
-            print(f"{fg.WHITE}Redirected to:{sty.RESET_ALL} {dict_item[ 'Location']}")
+            if "Location" in dict_item.keys():
+                print()
+                click.secho("##################################", fg="blue")
+                print("             REDIRECTION              ")
+                click.secho("##################################", fg="blue")
+                print()
+                print(f"{fg.WHITE}Request for:{sty.RESET_ALL} {resp.url}")
+                print(f"{fg.WHITE}Redirected to:{sty.RESET_ALL} {dict_item[ 'Location']}")
 
         print()
         print(f"{fg.YELLOW}!! FINAL DESTINATION !!")
