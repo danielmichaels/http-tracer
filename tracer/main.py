@@ -82,24 +82,17 @@ class Tracer:
             return resp
         except requests.exceptions.MissingSchema or requests.exceptions.InvalidSchema as e:
             click.echo(
-                f"Schema Error. Only 'http://' and 'https://' supported"
-                f"{e}\nExiting.."
+                f"Schema Error. Only 'http://' and 'https://' supported\n{e}\nExiting..."
             )
             sys.exit(1)
         except ConnectionError as e:
-            click.echo(f"ConnectionError")
-            click.echo(f"{e}\n")
-            print("Exiting...")
+            click.echo(f"Error Occurred!\n{e}\nExiting...")
             sys.exit(1)
         except requests.ConnectionError or requests.ConnectTimeout as e:
-            click.echo(f"requests.ConnectionError")
-            click.echo(f"{e}\n")
-            print("Exiting...")
+            click.echo(f"Error Occurred!\n{e}\nExiting...")
             sys.exit(1)
         except requests.HTTPError as e:
-            click.echo(f"requests.HTTPError")
-            click.echo(f"{e}\n")
-            print("Exiting...")
+            click.echo(f"Error Occurred!\n{e}\nExiting...")
             sys.exit(1)
 
     def template(self, status_code, http_version, request_type, url, time, cookies):
