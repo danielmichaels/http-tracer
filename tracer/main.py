@@ -95,15 +95,6 @@ class Tracer:
             click.echo(f"Error Occurred!\n{e}\nExiting...")
             sys.exit(1)
 
-    def template(self, status_code, http_version, request_type, url, time, cookies):
-        """Method for templating the responses."""
-        template = (
-            f"{fg.GREEN}[{status_code}]{fg.YELLOW} HTTP/{http_version}"
-            f" {fg.BLUE}{request_type} {fg.WHITE}{url} {fg.CYAN}({time}ms)"
-            f" {fg.LIGHTGREEN_EX} {cookies or ''}{sty.RESET_ALL}"
-        )
-        print(template)
-
     def time_converter(self, resp):
         """
         Parses request.elapsed into milliseconds
@@ -155,6 +146,26 @@ class Tracer:
             if len(cookies) >= 1:
                 return f"(cookies: {len(cookies)})"
 
+    def _ipaddr(self, url):
+        import socket
+        from tld import get_fld
+        url = get_fld(url)
+        try:
+            return socket.gethostbyname(url)
+        except AttributeError as e:
+            click.echo(e)
+
+    def template(
+        self, status_code, http_version, request_type, url, time, cookies, ipaddr
+    ):
+        """Method for templating the responses."""
+        template = (
+            f"{fg.GREEN}[{status_code}]{fg.YELLOW} HTTP/{http_version}"
+            f" {fg.BLUE}{request_type}{fg.RED} {ipaddr} {fg.WHITE}{url} {fg.CYAN}({time}ms)"
+            f" {fg.LIGHTGREEN_EX} {cookies or ''}{sty.RESET_ALL} "
+        )
+        print(template)
+
     def format_response(self, resp):
         """The default output for HTTP-Tracer."""
         print(self.logo)
@@ -168,6 +179,7 @@ class Tracer:
                     url=redirects.url,
                     time=self.time_converter(redirects.elapsed),
                     cookies=self.cookies_exist(redirects),
+                    ipaddr=self._ipaddr(redirects.url),
                 )
         self.template(
             resp.status_code,
@@ -176,6 +188,7 @@ class Tracer:
             resp.url,
             self.time_converter(resp.elapsed),
             self.cookies_exist(resp),
+            self._ipaddr(resp.url)
         )
         if resp.status_code == 404:
             print(
