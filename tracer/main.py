@@ -48,7 +48,8 @@ class Tracer:
         self.url = url
         self.get_response()
 
-    def user_agent(self):
+    @staticmethod
+    def user_agent():
         user_agents = [
             "Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)",
             "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
@@ -97,7 +98,8 @@ class Tracer:
             click.echo(f"Error Occurred!\n{e}\nExiting...")
             sys.exit(1)
 
-    def time_converter(self, resp):
+    @staticmethod
+    def time_converter(resp):
         """
         Parses request.elapsed into milliseconds
 
@@ -107,7 +109,8 @@ class Tracer:
         """
         return int(resp.total_seconds() * 1000)
 
-    def http_version_converter(self, resp):
+    @staticmethod
+    def http_version_converter(resp):
         """
         Reformat requests raw.version integer into the HTTP header format
 
@@ -120,7 +123,8 @@ class Tracer:
         else:
             return resp
 
-    def total_time_elapsed(self, resp):
+    @staticmethod
+    def total_time_elapsed(resp):
         """
         Return the total time taken for all redirects.
 
@@ -134,7 +138,8 @@ class Tracer:
         total.append(resp.elapsed.total_seconds())
         return int(sum(total) * 1000)
 
-    def cookies_exist(self, resp):
+    @staticmethod
+    def cookies_exist(resp):
         """
         Check if cookies sent during response.
 
@@ -148,7 +153,8 @@ class Tracer:
             if len(cookies) >= 1:
                 return f"(cookies: {len(cookies)})"
 
-    def _ipaddr(self, url):
+    @staticmethod
+    def _ipaddr(url):
         url = get_fld(url)
         try:
             return socket.gethostbyname(url)
@@ -212,7 +218,8 @@ class FullTracer(Tracer):
         data = self.create_dicts(resp)
         self.full_format(data, resp)
 
-    def create_dicts(self, resp):
+    @staticmethod
+    def create_dicts(resp):
         """
         Returns a list of dictionaries of all response headers.
 
