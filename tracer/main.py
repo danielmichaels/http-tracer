@@ -188,7 +188,7 @@ class Tracer:
             resp.url,
             self.time_converter(resp.elapsed),
             self.cookies_exist(resp),
-            self._ipaddr(resp.url)
+            self._ipaddr(resp.url),
         )
         if resp.status_code == 404:
             print(
@@ -277,12 +277,14 @@ class FullTracer(Tracer):
                 click.secho("##################################", fg="blue")
                 print()
                 print(f"{fg.WHITE}Request for:{sty.RESET_ALL} {resp.url}")
-                print(f"{fg.WHITE}Redirected to:{sty.RESET_ALL} {dict_item[ 'Location']}")
+                print(
+                    f"{fg.WHITE}Redirected to:{sty.RESET_ALL} {dict_item[
+                        'Location']}"
+                )
 
-        print()
         print(f"{fg.YELLOW}!! FINAL DESTINATION !!")
-        print(f"{fg.WHITE}URL:{sty.RESET_ALL} {resp.url}")
-        print(f"{fg.WHITE}Status Code:{sty.RESET_ALL} {resp.status_code}")
+        print(f"{fg.WHITE}[200 OK] {sty.RESET_ALL} {resp.url}")
+        print(f"{fg.WHITE}IP Address:{sty.RESET_ALL} {self._ipaddr(resp.url)}")
 
 
 if __name__ == "__main__":
