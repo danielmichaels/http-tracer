@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 import random
 import re
+import socket
 import sys
 
 import click
 import requests
 from colorama import Fore as fg
 from colorama import Style as sty
+from tld import get_fld
 
 version = "2019.2.1"
 
@@ -147,8 +149,6 @@ class Tracer:
                 return f"(cookies: {len(cookies)})"
 
     def _ipaddr(self, url):
-        import socket
-        from tld import get_fld
         url = get_fld(url)
         try:
             return socket.gethostbyname(url)
