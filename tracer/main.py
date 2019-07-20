@@ -10,7 +10,7 @@ from colorama import Fore as fg
 from colorama import Style as sty
 from tld import get_fld
 
-version = "2019.2.1"
+version = "2019.7.1"
 
 
 @click.command()
