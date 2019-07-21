@@ -291,7 +291,7 @@ class FullTracer(Tracer):
                 print()
                 print(f"{fg.LIGHTCYAN_EX}Request for:{sty.RESET_ALL} {resp.url}")
                 print(
-                    f"{fg.LIGHTCYAN_EX}Redirected to: {fg.WHITE} {dict_item['Location']}{fg.RED} => {sty.RESET_ALL} {self._ipaddr(resp.url)} "
+                    f"{fg.LIGHTCYAN_EX}Redirected to:{fg.WHITE} {dict_item['Location']}{fg.RED} => {sty.RESET_ALL} {self._ipaddr(resp.url)} "
                 )
 
         print(f"{fg.YELLOW}!! FINAL DESTINATION !!")
