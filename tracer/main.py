@@ -15,7 +15,13 @@ version = "2019.7.1"
 
 @click.command()
 @click.argument("url")
-@click.option("--full", "-f", multiple=True, is_flag=True, help="Print detailed report on each hop along the path")
+@click.option(
+    "--full",
+    "-f",
+    multiple=True,
+    is_flag=True,
+    help="Print detailed report on each hop along the path",
+)
 def main(url, full):
     """
     HTTP-Tracer returns the redirects on way to the destination URL.
