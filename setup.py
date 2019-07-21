@@ -13,7 +13,7 @@ $ twine upload -r pypi dist/*
 from setuptools import setup, find_packages
 
 NAME = "http-tracer"
-VERSION = "19.2.1"
+VERSION = "19.7.1"
 DESCRIPTION = (
     "A simple script that follows redirects and returns each "
     "websites headers, cookies and url along its path."
@@ -25,7 +25,7 @@ AUTHOR_EMAIL = "dans.address@outlook.com"
 REQUIRES_PYTHON = ">= Python 3.6"
 
 # Include what dependencies it requires:
-REQUIRED = ["requests", "click", "colorama"]
+REQUIRED = ["requests", "Click", "colorama", "tld"]
 
 entry_points = {"console_scripts": [["http-tracer = tracer.main:main"]]}
 
