@@ -23,12 +23,12 @@ pip install http-tracer
 ## Requirements
 
 ```shell
-click==6.7
-colorama==0.4.1
-requests==2.21.0
+click==7.0
+colorama
+requests
+tld
 ```
 
-Currently HTTP-Tracer is broken with anything newer than `click` 6.7 due to breaking changes within their API.
 
 ## Usage example
 
@@ -45,7 +45,7 @@ http-tracer http://nyti.ms/1QETHgV --full
  | || | |_| |_ _ __ ___| |_ _ _ __ _ __ ___ _ _ 
  | __ |  _|  _| '_ \___|  _| '_/ _` / _/ -_) '_|
  |_||_|\__|\__| .__/    \__|_| \__,_\__\___|_|  
-              |_|                              v 2019.7.1
+              |_|                              v 2019.7.2
     
 [301] HTTP/1.1 GET http://nyti.ms/1QETHgV (625ms)  (cookies: 1)
 [301] HTTP/1.1 GET http://trib.al/CPCEesg (606ms)  
