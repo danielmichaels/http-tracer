@@ -296,7 +296,9 @@ class FullTracer(Tracer):
 
         print(f"{fg.YELLOW}!! FINAL DESTINATION !!")
         print(f"{fg.WHITE}[200 OK] {sty.RESET_ALL} {resp.url}")
-        print(f"{fg.LIGHTCYAN_EX}IP Address:{fg.WHITE}{self._ipaddr(resp.url)}{sty.RESET_ALL}")
+        print(
+            f"{fg.LIGHTCYAN_EX}IP Address: {fg.WHITE}{self._ipaddr(resp.url)}{sty.RESET_ALL}"
+        )
 
 
 if __name__ == "__main__":
