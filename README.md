@@ -45,7 +45,7 @@ http-tracer http://nyti.ms/1QETHgV --full
  | || | |_| |_ _ __ ___| |_ _ _ __ _ __ ___ _ _ 
  | __ |  _|  _| '_ \___|  _| '_/ _` / _/ -_) '_|
  |_||_|\__|\__| .__/    \__|_| \__,_\__\___|_|  
-              |_|                              v 2018.8.1
+              |_|                              v 2019.7.1
     
 [301] HTTP/1.1 GET http://nyti.ms/1QETHgV (625ms)  (cookies: 1)
 [301] HTTP/1.1 GET http://trib.al/CPCEesg (606ms)  
@@ -104,9 +104,16 @@ Status Code: 200
 
 ## Release History
 
+**v 19.7.1**
+
+- Update to `Click 7.0`
+- Provide IP Address for each hop.
+- Headers are coloured for easier reading.
+- Users no longer need to enter `http://` or `https://` protocol.
+
 **v 19.2.1**
 
-- Pin click 6.7 due to breaking changes within its new API
+- Pin `Click 6.7` due to breaking changes within its new API
 
 **v 18.9.1**
 
