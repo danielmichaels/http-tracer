@@ -206,13 +206,13 @@ class Tracer:
             print(
                 f"\n{fg.WHITE}HTTP-Tracer Returned {fg.RED}404{sty.RESET_ALL}{fg.WHITE}"
                 f" in {fg.CYAN}{self.total_time_elapsed( resp)}ms{fg.WHITE} over"
-                f"{fg.CYAN} {len( resp.history) + 1}{fg.WHITE} hops{sty.RESET_ALL}"
+                f"{fg.CYAN} {len(resp.history) + 1}{fg.WHITE} hops{sty.RESET_ALL}"
             )
 
         else:
             print(
                 f"\n{fg.WHITE}HTTP-Tracer finished in {fg.CYAN}{self.total_time_elapsed( resp)}ms{fg.WHITE} over"
-                f"{fg.CYAN} {len( resp.history) + 1}{fg.WHITE} hops{sty.RESET_ALL}"
+                f"{fg.CYAN} {len(resp.history) + 1}{fg.WHITE} hops{sty.RESET_ALL}"
             )
 
 
@@ -291,12 +291,12 @@ class FullTracer(Tracer):
                 print()
                 print(f"{fg.LIGHTCYAN_EX}Request for:{sty.RESET_ALL} {resp.url}")
                 print(
-                    f"{fg.LIGHTCYAN_EX}Redirected to: {dict_item['Location']}{fg.RED} => {sty.RESET_ALL} {self._ipaddr(resp.url)} "
+                    f"{fg.LIGHTCYAN_EX}Redirected to: {fg.WHITE} {dict_item['Location']}{fg.RED} => {sty.RESET_ALL} {self._ipaddr(resp.url)} "
                 )
 
         print(f"{fg.YELLOW}!! FINAL DESTINATION !!")
         print(f"{fg.WHITE}[200 OK] {sty.RESET_ALL} {resp.url}")
-        print(f"{fg.WHITE}IP Address:{sty.RESET_ALL} {self._ipaddr(resp.url)}")
+        print(f"{fg.LIGHTCYAN_EX}IP Address:{fg.WHITE}{self._ipaddr(resp.url)}{sty.RESET_ALL}")
 
 
 if __name__ == "__main__":
