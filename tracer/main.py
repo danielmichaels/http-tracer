@@ -14,13 +14,13 @@ version = "2019.7.1"
 
 
 @click.command()
-@click.argument("url", "Please enter a valid URL")
-@click.option("--full", "-f", is_flag=True, help="Do a full scan of the redirect chain")
+@click.argument("url")
+@click.option("--full", "-f", multiple=True, is_flag=True, help="Print detailed report on each hop along the path")
 def main(url, full):
     """
     HTTP-Tracer returns the redirects on way to the destination URL.
 
-    If user does not supply 'https://' defaults to 'http://'
+    If user does not supply 'https://' it will default to 'http://'
     """
     tracer = Tracer(url)
     resp = tracer.get_response()

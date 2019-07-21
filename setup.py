@@ -25,7 +25,7 @@ AUTHOR_EMAIL = "dans.address@outlook.com"
 REQUIRES_PYTHON = ">= Python 3.6"
 
 # Include what dependencies it requires:
-REQUIRED = ["requests", "click==6.7", "colorama"]
+REQUIRED = ["requests", "click", "colorama"]
 
 entry_points = {"console_scripts": [["http-tracer = tracer.main:main"]]}
 
