@@ -7,7 +7,7 @@ idna==2.8
 multidict==4.6.0
 PyYAML==5.4.1
 requests==2.22.0
-six==1.13.0
+six==1.15.0
 tld==0.9.3
 urllib3==1.25.7
 vcrpy==2.1.1
