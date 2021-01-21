@@ -6,7 +6,7 @@ http-tracer==19.7.3
 idna==2.8
 multidict==4.6.0
 PyYAML==5.4.1
-requests==2.22.0
+requests==2.25.1
 six==1.15.0
 tld==0.9.3
 urllib3==1.25.7
