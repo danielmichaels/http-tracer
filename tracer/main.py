@@ -3,12 +3,13 @@ import random
 import re
 import socket
 import sys
-
 import click
 import requests
 from colorama import Fore as fg
 from colorama import Style as sty
 from tld import get_fld
+import sys
+orig_stdout = sys.stdout
 
 version = "2019.7.1"
 
@@ -22,18 +23,28 @@ version = "2019.7.1"
     is_flag=True,
     help="Print detailed report on each hop along the path",
 )
-def main(url, full):
+@click.option(
+    "--output",
+    "-o",
+    multiple=True,
+    help="File location where you want to save the Output",
+)
+def main(url, full,output):
+    
     """
     HTTP-Tracer returns the redirects on way to the destination URL.
 
     If user does not supply 'https://' it will default to 'http://'
     """
+    if(output):
+        sys.stdout = open(output[0], 'w')
     tracer = Tracer(url)
     resp = tracer.get_response()
     tracer.format_response(resp)
     if full:
         full_tracer = FullTracer(url)
         full_tracer.run(resp)
+    sys.stdout.close()
 
 
 class Tracer:
